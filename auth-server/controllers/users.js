@@ -19,9 +19,7 @@ const signUp = async (req, res) => {
         }
 
         const savedUser = await UserModel.create(newUser);
-        console.log(savedUser)
         const token = jwt.sign({ email: email, id: savedUser._id }, secret, { expiresIn: '7d' })
-        console.log(token)
         res.status(200).json({ message: 'User created successfully', savedUser, token, status: 200 });
 
     } catch (error) {
@@ -50,4 +48,14 @@ const signin = async (req, res) => {
     }
 }
 
-module.exports = { signUp, signin }
+const findAllUsers = async (req, res) => {
+    try {
+        const users = await UserModel.find();
+        res.status(200).json({ message: 'User fetched successfully', users, status: 200 });
+    } catch (error) {
+        res.status(500).json({ message: "Internal Server Error", error: error, status: 500 })
+        console.log(error)
+    }
+}
+
+module.exports = { signUp, signin, findAllUsers }
