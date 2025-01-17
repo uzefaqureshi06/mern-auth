@@ -51,7 +51,7 @@ const signin = async (req, res) => {
 const findAllUsers = async (req, res) => {
     try {
         const users = await UserModel.find();
-        return res.status(200).json({ message: 'User fetched successfully', users, status: 200 });
+        return users;
     } catch (error) {
         console.log(error)
         return res.status(500).json({ message: 'Internal Server Error', error: error, status: 500 })
@@ -63,7 +63,7 @@ const searchUsers = async (req, res) => {
     console.log(searchTerm)
     try {
         if (!searchTerm) {
-            return res.status(400).json({ message: 'Please enter the search term which u want to search', status: 400 })
+            await findAllUsers();
         }
         const users = await UserModel.find({
             $or: [

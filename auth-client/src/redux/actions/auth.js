@@ -1,5 +1,5 @@
 import * as api from "../api";
-import { AUTH } from "../constants/actionTypes";
+import { AUTH, FETCH_USERS } from "../constants/actionTypes";
 
 export const signUp = (userData) => async (dispatch) => {
     try {
