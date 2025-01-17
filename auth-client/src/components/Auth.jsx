@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { signUp } from '../redux/actions/auth';
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom';
 const Auth = () => {
     const [toggle, setToggle] = useState(true);
     const [viewPassword, setViewPassWord] = useState(false);
@@ -8,6 +9,7 @@ const Auth = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const handleToggle = () => {
         setToggle(!toggle);
     }
@@ -17,9 +19,13 @@ const Auth = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (toggle) {
-
+            //implement signin
         } else {
             dispatch(signUp({ username, email, password }));
+            navigate('/')
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
         }
     }
     return (
