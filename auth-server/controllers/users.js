@@ -24,7 +24,7 @@ const signUp = async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ message: "Internal Server Error", error: error, status: 500 })
+        return res.status(500).json({ message: 'Internal Server Error', error: error, status: 500 })
     }
 }
 
@@ -44,7 +44,7 @@ const signin = async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ message: "Internal Server Error", error: error, status: 500 })
+        return res.status(500).json({ message: 'Internal Server Error', error: error, status: 500 })
     }
 }
 
@@ -54,8 +54,36 @@ const findAllUsers = async (req, res) => {
         return res.status(200).json({ message: 'User fetched successfully', users, status: 200 });
     } catch (error) {
         console.log(error)
-        return res.status(500).json({ message: "Internal Server Error", error: error, status: 500 })
+        return res.status(500).json({ message: 'Internal Server Error', error: error, status: 500 })
     }
 }
 
-module.exports = { signUp, signin, findAllUsers }
+const searchUsers = async (req, res) => {
+    const { searchTerm } = req.query;
+    console.log(searchTerm)
+    try {
+        if (!searchTerm) {
+            return res.status(400).json({ message: 'Please enter the search term which u want to search', status: 400 })
+        }
+        const users = await UserModel.find({
+            $or: [
+                {
+                    username: { $regex: searchTerm, $options: 'i' },
+                },
+                {
+                    email: { $regex: searchTerm, $options: 'i' },
+                }
+            ]
+        });
+        return res.status(200).json({ message: 'User fetched sucessfully', users, status: 200 })
+    } catch (error) {
+        return res.status(500).json({ message: 'Internal Server Error', error: error, status: 500 })
+
+    }
+}
+
+module.exports = { signUp, signin, findAllUsers, searchUsers }
+
+// .find({})
+// find({$or: []});
+// find({$or: [{username: { $regex: searchTerm, $options: 'i' }}]});
