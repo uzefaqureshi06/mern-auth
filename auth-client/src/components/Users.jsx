@@ -8,10 +8,10 @@ const Users = () => {
     const users = useSelector((state) => state.users);
     useEffect(() => {
         dispatch(getUsers(searchTerm));
-    }, [dispatch])
-    const handleSearch = () => {
-        dispatch(getUsers(searchTerm));
-    }
+    }, [dispatch, searchTerm])
+    // const handleSearch = () => {
+    //     dispatch(getUsers(searchTerm));
+    // }
     console.log(users);
     return (
         <>
